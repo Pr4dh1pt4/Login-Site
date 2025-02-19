@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <title></title>
+            <style>
+                #root {
+                    background-color:tomato;
+                    color:white;
+                    font-size: 2em;
+                    text-align: center;
+                    height: 100vh
+                }
+            </style>
+        </head>
+        <body>
+
+            <div id="root">
+                <input type="text" placeholder="username" id="usernameInput" />
+                <input type="password" placeholder="password" id="passwordInput" />
+                <button onclick="onLogin()" id="loginButton">LOGIN</button>
+                <button onclick="onreg()" id="regButton">REGISTER</button>
+                <button onclick="onLogout()" id="logoutButton">LOGOUT</button>
+
+                <br>
+                <br>
+                <h1 id="admin">Login sebagai admin</h1>
+                <h1 id="basic">login sebagai user biasa</h1>
+            </div>
+
+            <script type="application/javascript">
+
+                let usernameInput = document.getElementById('usernameInput');
+                let passwordInput = document.getElementById('passwordInput');
+                let admin = document.getElementById('admin');
+                let basic = document.getElementById('basic');
+                let loginButton = document.getElementById('loginButton');
+                let logoutButton = document.getElementById('logoutButton');
+                let regButton = document.getElementById('regButton');
+
+                admin.style.display = "none";
+                basic.style.display = "none";
+                logoutButton.style.display = "none";
+
+                function onreg(){
+                    localstorage.setItem("username", usernameInput.value);
+                    localstorage.setItem("password", passwordInput.value);
+                }
+
+                function onLogin(){
+                    localStorage.setItem("username", usernameInput.value);
+                    logoutButton.style.display = "block";
+
+                    if(usernameInput.value == "admin" && passwordInput.value == "admin123"){
+                        localStorage.setItem("role", "admin");
+                        admin.style.display = "block";
+                        usernameInput.style.display = "none";
+                        passwordInput.style.display = "none";
+                        loginButton.style.display = "none";
+                    } else {
+                        localStorage.setItem("role", "basic");
+                        basic.style.display = "block";
+                        usernameInput.style.display = "none";
+                        passwordInput.style.display = "none";
+                        loginButton.style.display = "none";
+                    }
+               }
+
+               if(localStorage.getItem('username')){
+                    usernameInput.style.display = "none";
+                    passwordInput.style.display = "none";
+                    loginButton.style.display = "none";
+                    logoutButton.style.display = "block";
+                    if(localStorage.getItem("role") == "admin"){
+                        admin.style.display = "block";
+                    } else {
+                        basic.style.display = "block";
+                        admin.style.display = "none";
+                    }
+               }
+
+               function onLogout(){
+                    localStorage.clear();
+                    location.reload();
+               }
+            </script>
+        </body>
+    </html>
